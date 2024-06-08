@@ -10,13 +10,14 @@ class APIBlog {
     Router router = Router();
 
     router.get('/blog/news', (Request req) {
-      //_servico.findAll();
+      _service.findAll();
       return Response.ok('Essas são as noticias!');
     });
 
     router.post('/blog/news', (Request req) async {
       String reqBody = await req.readAsString();
-      //_servico.save('');
+
+      _service.save('');
 
       return Response.ok(reqBody);
     });
