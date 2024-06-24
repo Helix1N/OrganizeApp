@@ -25,10 +25,9 @@ class ServiceNews implements ServiceGeneric<ModelNews> {
     int index = _fakeDB.indexOf(value);
     if (index == -1) {
       _fakeDB.add(value);
-      return true;
     } else {
       _fakeDB[index] = value;
-      return false;
     }
+    return true;
   }
 }

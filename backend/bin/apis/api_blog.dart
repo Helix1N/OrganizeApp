@@ -1,38 +1,34 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import '../services/service_generic.dart';
+import '../models/model_news.dart';
+import './api.dart';
+import 'dart:convert';
 
-class APIBlog {
-  final ServiceGeneric _service;
+class APIBlog extends API {
+  final ServiceGeneric<ModelNews> _service;
   APIBlog(this._service);
 
-  Handler get handler {
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     Router router = Router();
 
     router.get('/blog/news', (Request req) {
-      _service.findAll();
-      return Response.ok('Essas são as noticias!');
+      List<ModelNews> listNews = _service.findAll();
+      List<Map> mapNews = listNews.map((e) => e.toJson()).toList();
+      return Response.ok(jsonEncode(mapNews));
     });
 
     router.post('/blog/news', (Request req) async {
       String reqBody = await req.readAsString();
-
-      _service.save('');
-
-      return Response.ok(reqBody);
+      _service.save(ModelNews.fromJson(json.decode(reqBody)));
+      return Response(201);
     });
 
-    router.put('/blog/news', (Request req) {
-      String? id = req.url.queryParameters['id'];
-      //_servico.save(id);
-      return Response.ok('Choveu hoje');
-    });
+    router.put('/blog/news', (Request req) async {});
 
-    router.delete('/blog/news', (Request req) {
-      String? id = req.url.queryParameters['id'];
-      return Response.ok('Choveu hoje');
-    });
+    router.delete('/blog/news', (Request req) {});
 
-    return router;
+    return createHandler(router: router, middlewares: middlewares);
   }
 }
