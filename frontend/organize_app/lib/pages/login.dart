@@ -51,10 +51,11 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       var url = Uri.parse(
-          'http://10.0.2.3:8080/login'); // Replace with your API endpoint
+          'https://10.0.2.2:8080/login'); // Replace with your API endpoint
       print(url);
       var response = await http
           .post(url, body: {"username": _userName, "password": _password});
+      print("Gabald");
       print(response);
       if (response.statusCode == 200) {
         // If server returns a 200 OK response, parse the JSON
