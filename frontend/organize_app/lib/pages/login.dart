@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:organiza_app/pages/signup.dart';
+import 'dart:convert';
 import 'package:organiza_app/pages/home.dart';
-import 'package:http/http.dart' as http;
+import 'dart:io';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -15,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   String? _userName;
   String? _password;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -45,34 +47,63 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void postLoginData(BuildContext context) async {
-    if (!verifyUserAndPassword()) {
+    if (_userName == null ||
+        _password == null ||
+        _password == "" ||
+        _userName == "") {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Username or Password not set')),
       );
     } else {
       var url = Uri.parse(
-          'https://10.0.2.2:8080/login'); // Replace with your API endpoint
-      print(url);
-      var response = await http
-          .post(url, body: {"username": _userName, "password": _password});
-      print("Gabald");
-      print(response);
-      if (response.statusCode == 200) {
-        // If server returns a 200 OK response, parse the JSON
-        print(response.body); // Print the response body to the console
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(
-              username: _userName!,
+          'http://10.0.2.2:8080/login'); // Replace with your API endpoint
+      var client = HttpClient();
+
+      // Allow self-signed certificates for testing (not recommended for production)
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
+      try {
+        var request = await client.postUrl(url);
+        request.headers.set(
+            'content-type', 'application/json'); // Example of setting headers
+
+        // Add JSON payload
+        var payload =
+            json.encode({"username": _userName, "password": _password});
+        request.write(payload);
+
+        var response = await request.close();
+
+        if (response.statusCode == 200) {
+          // If server returns a 200 OK response, parse the JSON
+          var responseBody = await response.transform(utf8.decoder).join();
+          var jsonResponse = json.decode(responseBody);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomePage(
+                username: _userName!,
+              ),
             ),
-          ),
-        );
-      } else {
-        // If the response was not OK, handle it accordingly
+          );
+        } else {
+          // If the response was not OK, handle it accordingly
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content:
+                    Text('Request failed with status ${response.statusCode}')),
+          );
+        }
+      } catch (e) {
+        // Handle any errors that may occur during the HTTP request
+        print('Error during HTTP request: $e');
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Request failed')),
+          SnackBar(content: Text('Error during HTTP request: $e')),
         );
+      } finally {
+        client.close(); // Close the HttpClient to free up resources
       }
     }
   }
@@ -122,6 +153,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
                 child: TextField(
+                  obscureText: _obscurePassword,
                   controller: passwordController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(

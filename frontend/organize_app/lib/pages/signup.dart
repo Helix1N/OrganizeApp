@@ -10,6 +10,18 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   bool _agreePolicy = false;
+
+  String? _userName;
+  String? _password;
+  String? _email;
+
+  bool verifyUserAndPassword() {
+    if (_userName != null && _password != null && _email != null) {
+      return true;
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
