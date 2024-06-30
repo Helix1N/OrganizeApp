@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './login.dart';
+import 'dart:io';
+import 'package:organiza_app/pages/login.dart';
+import 'dart:convert';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -11,15 +13,58 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   bool _agreePolicy = false;
 
-  String? _userName;
-  String? _password;
-  String? _email;
+  String _userName = "";
+  String _password = "";
+  String _email = "";
 
-  bool verifyUserAndPassword() {
-    if (_userName != null && _password != null && _email != null) {
-      return true;
+  void postSignUp(BuildContext context) async {
+    if (_password.isEmpty || _userName.isEmpty || _email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('All fields are not set')),
+      );
+    } else {
+      var url = Uri.parse('http://10.0.2.2:8080/login');
+      var client = HttpClient();
+
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+
+      try {
+        var request = await client.postUrl(url);
+        request.headers.set('content-type', 'application/json');
+
+        var payload =
+            json.encode({"username": _userName, "password": _password});
+        request.write(payload);
+
+        var response = await request.close();
+
+        if (response.statusCode == 200) {
+          var responseBody = await response.transform(utf8.decoder).join();
+          var jsonResponse = json.decode(responseBody);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LoginPage(),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content:
+                    Text('Request failed with status ${response.statusCode}')),
+          );
+        }
+      } catch (e) {
+        print('Error during HTTP request: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error during HTTP request: $e')),
+        );
+      } finally {
+        client.close();
+      }
     }
-    return false;
   }
 
   @override
@@ -105,17 +150,22 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.orange,
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
-                    height: 70,
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Continue",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  child: GestureDetector(
+                    onTap: () {
+                      postSignUp(context);
+                    },
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: Colors.orange,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      height: 70,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Continue",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ),

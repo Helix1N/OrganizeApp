@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
 
-    // Start listening to changes.
     userNameController.addListener(_changeUserName);
     passwordController.addListener(_changePassword);
   }
@@ -39,13 +38,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  bool verifyUserAndPassword() {
-    if (_userName != null && _password != null) {
-      return true;
-    }
-    return false;
-  }
-
   void postLoginData(BuildContext context) async {
     if (_userName == null ||
         _password == null ||
@@ -55,20 +47,16 @@ class _LoginPageState extends State<LoginPage> {
         SnackBar(content: Text('Username or Password not set')),
       );
     } else {
-      var url = Uri.parse(
-          'http://10.0.2.2:8080/login'); // Replace with your API endpoint
+      var url = Uri.parse('http://10.0.2.2:8080/login');
       var client = HttpClient();
 
-      // Allow self-signed certificates for testing (not recommended for production)
       client.badCertificateCallback =
           (X509Certificate cert, String host, int port) => true;
 
       try {
         var request = await client.postUrl(url);
-        request.headers.set(
-            'content-type', 'application/json'); // Example of setting headers
+        request.headers.set('content-type', 'application/json');
 
-        // Add JSON payload
         var payload =
             json.encode({"username": _userName, "password": _password});
         request.write(payload);
@@ -76,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
         var response = await request.close();
 
         if (response.statusCode == 200) {
-          // If server returns a 200 OK response, parse the JSON
           var responseBody = await response.transform(utf8.decoder).join();
           var jsonResponse = json.decode(responseBody);
 
@@ -89,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
-          // If the response was not OK, handle it accordingly
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
                 content:
@@ -97,13 +83,12 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       } catch (e) {
-        // Handle any errors that may occur during the HTTP request
         print('Error during HTTP request: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error during HTTP request: $e')),
         );
       } finally {
-        client.close(); // Close the HttpClient to free up resources
+        client.close();
       }
     }
   }
