@@ -8,8 +8,9 @@ class MariadbDbConfiguration implements DbConfiguration {
   @override
   Future<MySqlConnection> get connection async {
     _connection ??= await createConnection();
-    if (_connection == null)
+    if (_connection == null) {
       throw Exception('[ERRO/DB] -> Failed Connection DB');
+    }
     return _connection!;
   }
 

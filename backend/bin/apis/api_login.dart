@@ -23,8 +23,6 @@ class APILogin extends API {
       var query = await connection.query(
           "SELECT username, password FROM organiza_usuarios s WHERE username = '$username' AND password = '$password'");
 
-      print(query.isEmpty);
-
       if (query.isEmpty) {
         return Response.forbidden("lul");
       }
