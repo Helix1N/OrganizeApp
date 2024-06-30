@@ -18,10 +18,10 @@ class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
           border: Border.all(width: 2, color: Colors.black)),
       child: Row(
         children: [
@@ -31,19 +31,20 @@ class _TaskCardState extends State<TaskCard> {
               children: [
                 Text(
                   widget.title,
-                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                      fontSize: 19, fontWeight: FontWeight.w600),
                 ),
                 Text(
                   widget.subtitle,
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 5,
                 ),
                 Row(
                   children: [
-                    Icon(Icons.check_circle),
-                    SizedBox(
+                    const Icon(Icons.check_circle),
+                    const SizedBox(
                       width: 5,
                     ),
                     Text("${widget.countTasks} Tasks")
@@ -52,7 +53,7 @@ class _TaskCardState extends State<TaskCard> {
               ],
             ),
           ),
-          Text(
+          const Text(
             "Foto",
             style: TextStyle(fontSize: 17),
           )

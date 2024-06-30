@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   final passwordController = TextEditingController();
   String? _userName;
   String? _password;
-  bool _obscurePassword = true;
+  final bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
         _password == "" ||
         _userName == "") {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Username or Password not set')),
+        const SnackBar(content: Text('Username or Password not set')),
       );
     } else {
       var url = Uri.parse('http://10.0.2.2:8080/login');
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
               ),
               const Padding(
-                padding: const EdgeInsets.only(top: 10.0),
+                padding: EdgeInsets.only(top: 10.0),
                 child: Text(
                   "Get ready to organize yourself!",
                   style: TextStyle(fontSize: 15),
@@ -212,7 +212,7 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => SignUpPage(),
+                              builder: (context) => const SignUpPage(),
                             ),
                           );
                         },

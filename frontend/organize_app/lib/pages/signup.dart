@@ -20,7 +20,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void postSignUp(BuildContext context) async {
     if (_password.isEmpty || _userName.isEmpty || _email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('All fields are not set')),
+        const SnackBar(content: Text('All fields are not set')),
       );
     } else {
       var url = Uri.parse('http://10.0.2.2:8080/login');
@@ -46,7 +46,7 @@ class _SignUpPageState extends State<SignUpPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => LoginPage(),
+              builder: (context) => const LoginPage(),
             ),
           );
         } else {
@@ -78,7 +78,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: Align(
             alignment: Alignment.topRight,
             child: Container(
-                child: Text(
+                child: const Text(
               "Organize App",
               style: TextStyle(fontWeight: FontWeight.w700),
             )),
@@ -92,19 +92,19 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Create Account",
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
                   child: Text(
                     "Please register on our Streamline, where you can continue using our services.",
                     style: TextStyle(fontSize: 15),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -113,8 +113,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintText: "UserName"),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -123,8 +123,8 @@ class _SignUpPageState extends State<SignUpPage> {
                         hintText: "Email"),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: TextField(
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -144,7 +144,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               _agreePolicy = value!;
                             });
                           }),
-                      Text("I agree to privacy & policy terms."),
+                      const Text("I agree to privacy & policy terms."),
                     ],
                   ),
                 ),
@@ -156,12 +156,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     },
                     child: Container(
                       width: double.infinity,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           color: Colors.orange,
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       height: 70,
                       alignment: Alignment.center,
-                      child: Text(
+                      child: const Text(
                         "Continue",
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w700),
@@ -182,8 +182,8 @@ class _SignUpPageState extends State<SignUpPage> {
                               border: Border.all(width: 1, color: Colors.grey)),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10.0, right: 10),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 10.0, right: 10),
                         child: Text("Or"),
                       ),
                       Expanded(
@@ -213,12 +213,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginPage(),
+                            builder: (context) => const LoginPage(),
                           ),
                         );
                       },
                       child: Container(
-                        child: Text(
+                        child: const Text(
                           "Already have an account? Sign in instead!",
                           style: TextStyle(fontSize: 15),
                         ),

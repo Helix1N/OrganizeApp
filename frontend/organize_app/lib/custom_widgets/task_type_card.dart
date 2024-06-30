@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class TaskTypeCard extends StatefulWidget {
   final String title;
@@ -30,12 +29,15 @@ class _TaskCardState extends State<TaskTypeCard> {
       height: widget.height,
       decoration: BoxDecoration(
           color: widget.color.withOpacity(0.8),
-          borderRadius: BorderRadius.all(Radius.circular(20))),
+          borderRadius: const BorderRadius.all(Radius.circular(20))),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
           children: [
             Container(
+              decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(100)),
+                  color: widget.color),
               child: Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Icon(
@@ -44,9 +46,6 @@ class _TaskCardState extends State<TaskTypeCard> {
                   size: 30,
                 ),
               ),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                  color: widget.color),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
@@ -56,7 +55,8 @@ class _TaskCardState extends State<TaskTypeCard> {
                 children: [
                   Text(
                     widget.title,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.w700),
                   ),
                   Text(
                     "${widget.countTasks} Tasks",

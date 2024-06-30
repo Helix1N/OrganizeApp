@@ -15,33 +15,32 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndexNavbar = 0;
 
   List<Widget> listTaskCard = [
-    TaskCard(
+    const TaskCard(
       title: "Varrer Sala",
       subtitle: "15 Horas",
       countTasks: 0,
     ),
-    TaskCard(
+    const TaskCard(
       title: "Lavar Louça",
       subtitle: "13 Horas",
       countTasks: 0,
     ),
-    TaskCard(
+    const TaskCard(
       title: "Comer Salada",
       subtitle: "18 Horas",
       countTasks: 0,
     ),
-    TaskCard(
+    const TaskCard(
       title: "Lavar Louça",
       subtitle: "19 Horas",
       countTasks: 0,
     ),
-  ];
+  ]; //Temporary testing list, will come from the DB in the future.
 
   @override
   void initState() {
     super.initState();
 
-    // Call your function to prepare the list
     listTaskCard = addSizedBoxToList(listTaskCard, 10.0, 0.0);
   }
 
@@ -68,43 +67,45 @@ class _HomePageState extends State<HomePage> {
         actions: [_actionsHome()],
       ),
       bottomNavigationBar: _bottomNavigationBar(),
-      body: ListView(padding: EdgeInsets.only(left: 20, right: 20), children: [
-        Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 50,
+      body: ListView(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          children: [
+            Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  taskTypeCards(),
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  const Text(
+                    "Recent Tasks",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: listTaskCard,
+                  )
+                ],
               ),
-              taskTypeCards(),
-              SizedBox(
-                height: 40,
-              ),
-              Text(
-                "Recent Tasks",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Column(
-                children: listTaskCard,
-              )
-            ],
-          ),
-        ),
-      ]),
+            ),
+          ]),
     );
   }
 
   Column taskTypeCards() {
-    return Column(
+    return const Column(
       children: [
         Row(
           children: [
             Expanded(
                 child: Padding(
-              padding: const EdgeInsets.only(right: 10, bottom: 20),
+              padding: EdgeInsets.only(right: 10, bottom: 20),
               child: TaskTypeCard(
                 icon: Icons.refresh,
                 title: "On going",
@@ -116,7 +117,7 @@ class _HomePageState extends State<HomePage> {
             )),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 20),
+                padding: EdgeInsets.only(left: 10, bottom: 20),
                 child: TaskTypeCard(
                   icon: Icons.av_timer,
                   title: "In Process",
@@ -133,7 +134,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(right: 10),
+                padding: EdgeInsets.only(right: 10),
                 child: TaskTypeCard(
                   icon: Icons.checklist,
                   title: "Completed",
@@ -146,7 +147,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(
+                padding: EdgeInsets.only(
                   left: 10.0,
                 ),
                 child: TaskTypeCard(
@@ -180,7 +181,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                 decoration: BoxDecoration(
                     border: Border.all(width: 2, color: Colors.black)),
-                child: Center(child: Text("Foto")),
+                child: const Center(child: Text("Foto")),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 20.0),
@@ -189,9 +190,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Text(
                       "Hi, ${widget.username}",
-                      style: TextStyle(fontSize: 22),
+                      style: const TextStyle(fontSize: 22),
                     ),
-                    Text(
+                    const Text(
                       "Your daily adventure starts here!",
                       style: TextStyle(fontSize: 15),
                     )
@@ -209,7 +210,7 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.only(right: 20.0),
       child: Container(
-        child: Text("Actions"),
+        child: const Text("Actions"),
       ),
     );
   }
