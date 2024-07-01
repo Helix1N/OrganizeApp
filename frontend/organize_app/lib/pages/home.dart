@@ -103,63 +103,43 @@ class _HomePageState extends State<HomePage> {
       children: [
         Row(
           children: [
-            Expanded(
-                child: Padding(
-              padding: EdgeInsets.only(right: 10, bottom: 20),
-              child: TaskTypeCard(
-                icon: Icons.refresh,
-                title: "On going",
-                height: 90,
-                width: 0,
-                color: Colors.blue,
-                countTasks: 0,
-              ),
-            )),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 10, bottom: 20),
-                child: TaskTypeCard(
-                  icon: Icons.av_timer,
-                  title: "In Process",
-                  height: 90,
-                  width: 0,
-                  color: Colors.orange,
-                  countTasks: 0,
-                ),
-              ),
-            )
+            TaskTypeCard(
+              icon: Icons.refresh,
+              title: "On going",
+              color: Colors.blue,
+              countTasks: 0,
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            TaskTypeCard(
+              icon: Icons.av_timer,
+              title: "In Process",
+              color: Colors.orange,
+              countTasks: 0,
+            ),
           ],
+        ),
+        SizedBox(
+          height: 20,
         ),
         Row(
           children: [
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: TaskTypeCard(
-                  icon: Icons.checklist,
-                  title: "Completed",
-                  height: 90,
-                  width: 0,
-                  color: Colors.green,
-                  countTasks: 0,
-                ),
-              ),
+            TaskTypeCard(
+              icon: Icons.checklist,
+              title: "Completed",
+              color: Colors.green,
+              countTasks: 0,
             ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  left: 10.0,
-                ),
-                child: TaskTypeCard(
-                  icon: Icons.error_outline,
-                  title: "Canceled",
-                  height: 90,
-                  width: 0,
-                  color: Colors.red,
-                  countTasks: 0,
-                ),
-              ),
-            )
+            SizedBox(
+              width: 20,
+            ),
+            TaskTypeCard(
+              icon: Icons.error_outline,
+              title: "Canceled",
+              color: Colors.red,
+              countTasks: 0,
+            ),
           ],
         )
       ],
