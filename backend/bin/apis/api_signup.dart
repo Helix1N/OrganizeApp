@@ -22,11 +22,13 @@ class APISignUp extends API {
       var connection = await MariadbDbConfiguration().connection;
 
       var query = await connection.query(
-          "SELECT username, email FROM organiza_usuarios s WHERE username = '$username' AND email = '$email' ");
-
-      if (query.isEmpty) {
-        //add user
+          "SELECT username FROM organiza_usuarios s WHERE username = '$username'");
+      if (query.isNotEmpty) {
+        //tell user is taken
       }
+
+      query = await connection.query(
+          "SELECT email FROM organiza_usuarios s WHERE email = '$email'");
 
       var token = await _securityService.generateJWT('1');
       var result = await _securityService.validateJWT(token);
