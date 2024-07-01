@@ -13,6 +13,7 @@ void main() async {
 
   var results = await connection.query("SELECT * FROM organiza_usuarios s");
   print(results);
+  connection.close();
 
   var _securityService = SecurityServiceImp();
 

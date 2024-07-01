@@ -29,6 +29,7 @@ class APILogin extends API {
 
       var token = await _securityService.generateJWT('1');
       var result = await _securityService.validateJWT(token);
+      connection.close();
       return Response.ok('{"key":"$token"}');
     }));
 
