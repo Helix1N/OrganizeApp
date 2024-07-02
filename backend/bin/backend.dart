@@ -25,13 +25,11 @@ void main() async {
 
   var cascadeHandler = Cascade()
       .add(APILogin(_securityService, ServiceUser()).getHandler())
-      .add(APIBlog(ServiceNews()).getHandler())
+      .add(APIBlog(ServiceNews()).getHandler(isSecurity: true))
       .handler;
   var handler = Pipeline()
       .addMiddleware(logRequests())
       .addMiddleware(MiddlewareInterception().addContentTypeJson)
-      .addMiddleware(_securityService.addJWTAuthorization)
-      .addMiddleware(_securityService.verifyJWT)
       .addHandler(cascadeHandler);
 
   await ServidorCustom().initialize(

@@ -13,7 +13,7 @@ class APILogin extends API {
   APILogin(this._securityService, this._userService);
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({List<Middleware>? middlewares, bool isSecurity = false}) {
     Router router = Router();
 
     router.post('/login', ((Request request) async {
@@ -40,6 +40,7 @@ class APILogin extends API {
       return Response.ok("OK");
     }));
 
-    return createHandler(router: router, middlewares: middlewares);
+    return createHandler(
+        router: router, middlewares: middlewares, isSecurity: isSecurity);
   }
 }

@@ -10,7 +10,7 @@ class APIBlog extends API {
   APIBlog(this._newsService);
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({List<Middleware>? middlewares, bool isSecurity = false}) {
     Router router = Router();
 
     router.get('/blog/news', (Request req) {
@@ -29,6 +29,7 @@ class APIBlog extends API {
 
     router.delete('/blog/news', (Request req) {});
 
-    return createHandler(router: router, middlewares: middlewares);
+    return createHandler(
+        router: router, middlewares: middlewares, isSecurity: isSecurity);
   }
 }
