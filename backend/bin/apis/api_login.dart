@@ -1,13 +1,16 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'dart:convert' as json;
+import '../models/model_user.dart';
 import '../infras/database/mariadb_db_configuration.dart';
 import '../infras/security/security_service.dart';
 import './api.dart';
+import '../services/service_generic.dart';
 
 class APILogin extends API {
   final SecurityService _securityService;
-  APILogin(this._securityService);
+  final ServiceGeneric<ModelUser> _userService;
+  APILogin(this._securityService, this._userService);
 
   @override
   Handler getHandler({List<Middleware>? middlewares}) {
@@ -24,7 +27,7 @@ class APILogin extends API {
           "SELECT username, password FROM organiza_usuarios s WHERE username = '$username' AND password = '$password'");
 
       if (query.isEmpty) {
-        return Response.forbidden("lul");
+        return Response.unauthorized("Wrong Username or Password");
       }
 
       var token = await _securityService.generateJWT('1');

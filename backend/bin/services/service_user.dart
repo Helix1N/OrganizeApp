@@ -4,8 +4,7 @@ import './service_generic.dart';
 class ServiceUser implements ServiceGeneric<ModelUser> {
   @override
   bool delete(int value) {
-    // TODO: implement delete
-    throw UnimplementedError();
+    return true;
   }
 
   @override

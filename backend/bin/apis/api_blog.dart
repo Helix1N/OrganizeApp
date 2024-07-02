@@ -6,22 +6,22 @@ import './api.dart';
 import 'dart:convert';
 
 class APIBlog extends API {
-  final ServiceGeneric<ModelNews> _service;
-  APIBlog(this._service);
+  final ServiceGeneric<ModelNews> _newsService;
+  APIBlog(this._newsService);
 
   @override
   Handler getHandler({List<Middleware>? middlewares}) {
     Router router = Router();
 
     router.get('/blog/news', (Request req) {
-      List<ModelNews> listNews = _service.findAll();
+      List<ModelNews> listNews = _newsService.findAll();
       List<Map> mapNews = listNews.map((e) => e.toJson()).toList();
       return Response.ok(jsonEncode(mapNews));
     });
 
     router.post('/blog/news', (Request req) async {
       String reqBody = await req.readAsString();
-      _service.save(ModelNews.fromJson(json.decode(reqBody)));
+      _newsService.save(ModelNews.fromJson(json.decode(reqBody)));
       return Response(201);
     });
 
