@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:organiza_app/custom_widgets/bottom_nav.dart';
 import 'package:organiza_app/custom_widgets/task_type_card.dart';
 import 'package:organiza_app/custom_widgets/task_card.dart';
+import 'package:organiza_app/pages/new_task.dart';
+import '../data/data_user.dart';
 
 class HomePage extends StatefulWidget {
-  final String username;
-
-  const HomePage({super.key, required this.username});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndexNavbar = 0;
+  final int _selectedIndexNavbar = 0;
 
   List<Widget> listTaskCard = [
     const TaskCard(
@@ -40,7 +41,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-
     listTaskCard = addSizedBoxToList(listTaskCard, 10.0, 0.0);
   }
 
@@ -62,14 +62,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _titleHome(),
-        actions: [_actionsHome()],
+      bottomNavigationBar: BottomNav(
+        selectedIndexNavbar: _selectedIndexNavbar,
+        context: context,
       ),
-      bottomNavigationBar: _bottomNavigationBar(),
+      appBar: AppBar(),
       body: ListView(
           padding: const EdgeInsets.only(left: 20, right: 20),
           children: [
+            _titleHome(),
             Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,6 +90,7 @@ class _HomePageState extends State<HomePage> {
                     height: 20,
                   ),
                   Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: listTaskCard,
                   )
                 ],
@@ -148,39 +150,34 @@ class _HomePageState extends State<HomePage> {
 
   Container _titleHome() {
     return Container(
-        child: Padding(
-      padding: const EdgeInsets.only(left: 20.0, top: 10, right: 20),
+        child: Align(
+      alignment: Alignment.topLeft,
       child: Container(
         height: 60,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 240.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                    border: Border.all(width: 2, color: Colors.black)),
-                child: const Center(child: Text("Foto")),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: const Center(child: Text("Foto")),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Hi, ${UserData().username}",
+                    style: const TextStyle(fontSize: 22),
+                  ),
+                  const Text(
+                    "Your daily adventure starts here!",
+                    style: TextStyle(fontSize: 15),
+                  )
+                ],
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Hi, ${widget.username}",
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                    const Text(
-                      "Your daily adventure starts here!",
-                      style: TextStyle(fontSize: 15),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     ));
@@ -192,55 +189,6 @@ class _HomePageState extends State<HomePage> {
       child: Container(
         child: const Text("Actions"),
       ),
-    );
-  }
-
-  BottomNavigationBar _bottomNavigationBar() {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.home,
-            size: 30,
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.checklist,
-            size: 30,
-          ),
-          label: 'Check',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.add,
-            size: 30,
-          ),
-          label: 'add',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(
-            Icons.search,
-            size: 30,
-          ),
-          label: 'Search',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person, size: 30),
-          label: 'Profile',
-        ),
-      ],
-      currentIndex: _selectedIndexNavbar,
-      selectedItemColor: Colors.blue.withOpacity(0.7),
-      onTap: (int index) {
-        setState(() {
-          _selectedIndexNavbar = index;
-        });
-      },
     );
   }
 }

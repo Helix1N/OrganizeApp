@@ -1,6 +1,7 @@
 abstract class ServiceGeneric<T> {
-  T findOne(int id);
-  List<T> findAll();
-  bool save(T value);
-  bool delete(int value);
+  Future<T?> readOne(int id);
+  Future<List<T?>> readAll();
+  Future update(T value);
+  Future create(T value);
+  Future delete(int value);
 }

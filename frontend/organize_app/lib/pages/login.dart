@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:organiza_app/data/data_user.dart';
 import 'package:organiza_app/pages/signup.dart';
 import 'dart:convert';
 import 'package:organiza_app/pages/home.dart';
@@ -66,13 +67,13 @@ class _LoginPageState extends State<LoginPage> {
         if (response.statusCode == 200) {
           var responseBody = await response.transform(utf8.decoder).join();
           var jsonResponse = json.decode(responseBody);
+          UserData.setId(jsonResponse['id']);
+          UserData.setUsername(jsonResponse['username']);
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomePage(
-                username: _userName!,
-              ),
+              builder: (context) => HomePage(),
             ),
           );
         } else {
