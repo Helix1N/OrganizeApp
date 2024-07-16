@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:organiza_app/custom_widgets/bottom_nav.dart';
 import 'package:organiza_app/custom_widgets/category_button.dart';
+import 'package:organiza_app/custom_widgets/standard_dropdown_button.dart';
 import 'package:organiza_app/custom_widgets/standard_text_field.dart';
 import '../data/data_user.dart';
 
@@ -20,6 +21,10 @@ class _NewTaskPageState extends State<NewTaskPage> {
   final TextEditingController _taskAssigneeController = TextEditingController();
   final TextEditingController _taskSubtitleController = TextEditingController();
   bool _getAlertTask = true;
+
+  String? _selectedAssignee = "None";
+  String? _selectedGroup = "None";
+  List<String> _spinnerItems = ['None', 'Item 1', 'Item 2', 'Item 3', 'Item 4'];
 
   void _createTask() async {
     if (_taskTitleController.text == "" ||
@@ -41,7 +46,7 @@ class _NewTaskPageState extends State<NewTaskPage> {
         request.headers.set('content-type', 'application/json');
 
         var payload = json.encode({
-          "userId": UserData().id,
+          "userId": DataUser().id,
           "title": _taskTitleController.text,
           "description": _taskDescriptionController.text,
           "subtitle": _taskSubtitleController.text,
@@ -72,9 +77,100 @@ class _NewTaskPageState extends State<NewTaskPage> {
     }
   }
 
-  String? _selectedAssignee;
-  String? _selectedGroup;
-  List<String> _spinnerItems = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
+  void _getAssigneeList() async {
+    var url = Uri.parse('http://10.0.2.2:8080/task/getAssigneeList');
+    var client = HttpClient();
+
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+
+    try {
+      var request = await client.postUrl(url);
+      request.headers.set('content-type', 'application/json');
+
+      var payload = json.encode({
+        "userId": DataUser().id,
+        "title": _taskTitleController.text,
+        "description": _taskDescriptionController.text,
+        "subtitle": _taskSubtitleController.text,
+        "status": 1
+      });
+      request.write(payload);
+
+      var response = await request.close();
+
+      if (response.statusCode == 200) {
+        var responseBody = await response.transform(utf8.decoder).join();
+        var jsonResponse = json.decode(responseBody);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Request failed with status ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during HTTP request: $e')),
+      );
+    } finally {
+      client.close();
+    }
+  }
+
+  void _getGroupList() async {
+    var url = Uri.parse('http://10.0.2.2:8080/group/getGroupList');
+    var client = HttpClient();
+
+    client.badCertificateCallback =
+        (X509Certificate cert, String host, int port) => true;
+
+    try {
+      var request = await client.getUrl(url);
+      request.headers.set('content-type', 'application/json');
+
+      var response = await request.close();
+
+      if (response.statusCode == 200) {
+        var responseBody = await response.transform(utf8.decoder).join();
+        var jsonResponse = json.decode(responseBody);
+        print(jsonResponse);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Request failed with status ${response.statusCode}')),
+        );
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error during HTTP request: $e')),
+      );
+    } finally {
+      client.close();
+    }
+  }
+
+  dynamic funcGroup(String? value) {
+    setState(() {
+      _selectedGroup = value;
+    });
+  }
+
+  dynamic funcAssisgnee(String? value) {
+    setState(() {
+      _selectedAssignee = value;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getGroupList();
+  }
+
   @override
   void dispose() {
     _taskTitleController.dispose();
@@ -125,38 +221,36 @@ class _NewTaskPageState extends State<NewTaskPage> {
                       SizedBox(
                         height: 20,
                       ),
-                      DropdownButton<String>(
-                        value: _selectedGroup,
-                        hint: Text('Select a group'),
-                        items: _spinnerItems.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedGroup = newValue;
-                          });
-                        },
+                      const Text(
+                        "Select a Group",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      StandardDropdownButton(
+                          listItems: _spinnerItems,
+                          function: funcGroup,
+                          hintText: "Select a Group",
+                          selectedItem: _selectedGroup),
                       SizedBox(
                         height: 20,
                       ),
-                      DropdownButton<String>(
-                        value: _selectedAssignee,
-                        hint: Text('Select an assignee'),
-                        items: _spinnerItems.map((String item) {
-                          return DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(item),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedAssignee = newValue;
-                          });
-                        },
+                      const Text(
+                        "Select an Assignee",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      StandardDropdownButton(
+                        listItems: _spinnerItems,
+                        function: funcAssisgnee,
+                        hintText: "Select an Assignee",
+                        selectedItem: _selectedAssignee,
                       ),
                       SizedBox(
                         height: 20,

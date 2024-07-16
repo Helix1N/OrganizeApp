@@ -20,14 +20,14 @@ class APISignUp extends API {
       String body = await request.readAsString();
       Map<String, dynamic> jsonBody = json.jsonDecode(body);
       String email = jsonBody["email"];
-      String username = jsonBody["username"];
+      String name = jsonBody["name"];
       String password = jsonBody["password"];
-      var connection = await MariadbDbConfiguration().connection;
+      var connection = await MariadbDBConfiguration().connection;
 
-      var query = await connection.query(
-          "SELECT username FROM organiza_usuarios s WHERE username = '$username'");
+      var query = await connection
+          .query("SELECT name FROM organiza_usuarios s WHERE name = '$name'");
       if (query.isNotEmpty) {
-        return Response.unauthorized("Username already taken");
+        return Response.unauthorized("Name already taken");
       }
       query = await connection.query(
           "SELECT email FROM organiza_usuarios s WHERE email = '$email'");

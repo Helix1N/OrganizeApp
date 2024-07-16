@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class ModelUser {
   final int id;
-  final String username;
+  final String name;
   final String password;
   final String location;
   final String email;
@@ -10,7 +10,7 @@ class ModelUser {
 
   ModelUser({
     required this.id,
-    required this.username,
+    required this.name,
     required this.password,
     required this.location,
     required this.email,
@@ -26,7 +26,7 @@ class ModelUser {
     }
     return ModelUser(
       id: map['id'] ?? -1,
-      username: map['username'] ?? "",
+      name: map['name'] ?? "",
       location: map['location'] ?? "",
       email: map['email'] ?? "",
       password: map['password'] ?? "",
@@ -40,7 +40,7 @@ class ModelUser {
   Map toJson() {
     return {
       'id': id,
-      'username': username,
+      'name': name,
       'password': password,
       'location': location,
       'email': email,
@@ -54,7 +54,7 @@ class ModelUser {
 
     return other is ModelUser &&
         other.id == id &&
-        other.username == username &&
+        other.name == name &&
         other.password == password &&
         other.location == location &&
         other.email == email &&
@@ -64,7 +64,7 @@ class ModelUser {
   @override
   int get hashCode =>
       id.hashCode ^
-      username.hashCode ^
+      name.hashCode ^
       password.hashCode ^
       location.hashCode ^
       email.hashCode ^
@@ -72,6 +72,6 @@ class ModelUser {
 
   @override
   String toString() {
-    return 'ModelUser(id: $id, username: $username, password: $password, location: $location, email: $email, isActive: $isActive)';
+    return 'ModelUser(id: $id, name: $name, password: $password, location: $location, email: $email, isActive: $isActive)';
   }
 }

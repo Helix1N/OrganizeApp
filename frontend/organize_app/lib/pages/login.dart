@@ -58,8 +58,7 @@ class _LoginPageState extends State<LoginPage> {
         var request = await client.postUrl(url);
         request.headers.set('content-type', 'application/json');
 
-        var payload =
-            json.encode({"username": _userName, "password": _password});
+        var payload = json.encode({"name": _userName, "password": _password});
         request.write(payload);
 
         var response = await request.close();
@@ -67,8 +66,8 @@ class _LoginPageState extends State<LoginPage> {
         if (response.statusCode == 200) {
           var responseBody = await response.transform(utf8.decoder).join();
           var jsonResponse = json.decode(responseBody);
-          UserData.setId(jsonResponse['id']);
-          UserData.setUsername(jsonResponse['username']);
+          DataUser.setId(jsonResponse['id']);
+          DataUser.setName(jsonResponse['name']);
 
           Navigator.push(
             context,

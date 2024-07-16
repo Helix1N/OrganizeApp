@@ -8,9 +8,9 @@ import './infras/middleware_interception.dart';
 import './infras/dependecy_injector/injects.dart';
 
 void main() async {
-  final _di = Injects.initialize();
+  final _di = await Injects.initialize();
 
-  var connection = await _di.get<DbConfiguration>().connection;
+  var connection = await _di.get<DBConfiguration>().connection;
   var results = await connection.query("SELECT * FROM organiza_usuarios s");
   print(results);
 

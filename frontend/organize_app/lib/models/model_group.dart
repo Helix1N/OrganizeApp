@@ -3,13 +3,13 @@ import 'model_user.dart';
 
 class ModelGroup {
   final String id;
-  final String groupName;
+  final String name;
   final List<ModelTask>? taskList;
   final List<ModelUser> usersList;
 
   ModelGroup(
       {required this.id,
-      required this.groupName,
+      required this.name,
       this.taskList,
       required this.usersList});
 }

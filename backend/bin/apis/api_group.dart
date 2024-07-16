@@ -3,35 +3,35 @@ import "package:shelf/shelf.dart";
 import "package:shelf_router/shelf_router.dart";
 import "./api.dart";
 import "../infras/security/security_service.dart";
-import "../services/service_task.dart";
-import "../models/model_task.dart";
+import "../services/service_group.dart";
+import "../models/model_group.dart";
 
-class APITask extends API {
+class APIGroup extends API {
   final SecurityService _securityService;
-  final ServiceTask _taskService;
-  APITask(this._securityService, this._taskService);
+  final ServiceGroup _groupService;
+  APIGroup(this._securityService, this._groupService);
 
   @override
   Handler getHandler({List<Middleware>? middlewares, bool isSecurity = true}) {
     Router router = Router();
 
-    router.post('/task/testing', ((Request request) async {
+    router.post('/group/testing', ((Request request) async {
       return Response.movedPermanently("Hello");
     }));
 
-    router.get('/task/Hello', ((Request request) async {
+    router.get('/group/Hello', ((Request request) async {
       return Response.ok("Hello");
     }));
 
-    router.post('/task/create', ((Request request) async {
+    router.post('/group/create', ((Request request) async {
       String body = await request.readAsString();
       Map<String, dynamic> jsonBody = json.jsonDecode(body);
-      ModelTask task = ModelTask.fromMap(jsonBody);
-      print(task);
+      ModelGroup group = ModelGroup.fromMap(jsonBody);
+      print(group);
       return Response.ok("olo");
-      bool result = await _taskService.create(task);
+      bool result = await _groupService.create(group);
       if (result) {
-        return Response.ok("Task Created");
+        return Response.ok("Group Created");
       }
 
       var token = await _securityService.generateJWT('1');

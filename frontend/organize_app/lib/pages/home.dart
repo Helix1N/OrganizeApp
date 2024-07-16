@@ -167,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Hi, ${UserData().username}",
+                    "Hi, ${DataUser().name}",
                     style: const TextStyle(fontSize: 22),
                   ),
                   const Text(

@@ -1,9 +1,9 @@
 import '../models/model_user.dart';
 import './service_generic.dart';
-import '../dao/user_dao.dart';
+import '../dao/dao_user.dart';
 
 class ServiceLogin implements ServiceGeneric<ModelUser> {
-  final UserDao userDao;
+  final DaoUser userDao;
   ServiceLogin(this.userDao);
 
   @override
@@ -24,15 +24,16 @@ class ServiceLogin implements ServiceGeneric<ModelUser> {
 
   @override
   Future<bool> update(ModelUser value) async {
+    userDao.update(value);
     return true;
   }
 
-  Future<ModelUser?> readOneUsername(String username) async {
-    return await userDao.readOneUsername(username);
+  Future<ModelUser?> readOneUsername(String name) async {
+    return await userDao.readOneUsername(name);
   }
 
-  Future<ModelUser?> readOneLogin(String username, String password) async {
-    return await userDao.readOneLogin(username, password);
+  Future<ModelUser?> readOneLogin(String name, String password) async {
+    return await userDao.readOneLogin(name, password);
   }
 
   @override

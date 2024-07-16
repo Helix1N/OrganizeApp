@@ -4,7 +4,7 @@ import './model_user.dart';
 
 class ModelGroup {
   final int id;
-  final String groupName;
+  final String name;
   final List<ModelTask> taskList;
   final List<ModelUser> userList;
 
@@ -12,14 +12,14 @@ class ModelGroup {
     required this.userList,
     required this.id,
     required this.taskList,
-    required this.groupName,
+    required this.name,
   });
 
   factory ModelGroup.fromMap(Map<String, dynamic> map) {
     return ModelGroup(
         id: map['id'] ?? -1,
         taskList: map['taskList'],
-        groupName: map['groupName'] ?? "",
+        name: map['name'] ?? "",
         userList: map['userList']);
   }
   factory ModelGroup.fromJson(String source) {
@@ -30,7 +30,7 @@ class ModelGroup {
     return {
       'id': id,
       'taskList': taskList,
-      'groupName': groupName,
+      'name': name,
       'userList': userList,
     };
   }
@@ -42,16 +42,16 @@ class ModelGroup {
     return other is ModelGroup &&
         other.id == id &&
         other.taskList == taskList &&
-        other.groupName == groupName &&
+        other.name == name &&
         other.userList == userList;
   }
 
   @override
   int get hashCode =>
-      id.hashCode ^ taskList.hashCode ^ groupName.hashCode ^ userList.hashCode;
+      id.hashCode ^ taskList.hashCode ^ name.hashCode ^ userList.hashCode;
 
   @override
   String toString() {
-    return 'ModelGroup(id: $id, taskList: $taskList, groupName: $groupName, userList: $userList)';
+    return 'ModelGroup(id: $id, taskList: $taskList, name: $name, userList: $userList)';
   }
 }

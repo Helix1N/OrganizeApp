@@ -2,7 +2,7 @@ import 'package:mysql1/mysql1.dart';
 import './db_configuration.dart';
 import '../../utils/env_custom.dart';
 
-class MariadbDbConfiguration implements DbConfiguration {
+class MariadbDBConfiguration implements DBConfiguration {
   MySqlConnection? _connection;
 
   @override

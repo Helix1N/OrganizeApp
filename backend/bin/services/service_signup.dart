@@ -1,9 +1,9 @@
 import '../models/model_user.dart';
 import './service_generic.dart';
-import '../dao/user_dao.dart';
+import '../dao/dao_user.dart';
 
 class ServiceSignUp implements ServiceGeneric<ModelUser> {
-  final UserDao userDao;
+  final DaoUser userDao;
   ServiceSignUp(this.userDao);
 
   @override

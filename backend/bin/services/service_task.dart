@@ -1,9 +1,9 @@
 import '../models/model_task.dart';
 import './service_generic.dart';
-import '../dao/task_dao.dart';
+import '../dao/dao_task.dart';
 
 class ServiceTask implements ServiceGeneric<ModelTask> {
-  final TaskDao taskDao;
+  final DaoTask taskDao;
   ServiceTask(this.taskDao);
 
   @override

@@ -1,31 +1,31 @@
 import 'package:organiza_app/models/model_group.dart';
 
-class UserData {
-  static final UserData _instance = UserData._internal();
+class DataUser {
+  static final DataUser _instance = DataUser._internal();
 
-  String username = '';
+  String name = '';
   int id = -1;
   List<ModelGroup> groupList = [];
 
-  factory UserData() {
+  factory DataUser() {
     return _instance;
   }
 
-  static void setUsername(String username) {
-    UserData().username = username;
+  static void setName(String name) {
+    DataUser().name = name;
   }
 
   static void setId(int id) {
-    UserData().id = id;
+    DataUser().id = id;
   }
 
   static void setGroups(List<ModelGroup> groupList) {
-    UserData().groupList = groupList;
+    DataUser().groupList = groupList;
   }
 
-  String getUsername() {
-    return username;
+  String getname() {
+    return name;
   }
 
-  UserData._internal();
+  DataUser._internal();
 }
